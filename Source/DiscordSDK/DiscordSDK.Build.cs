@@ -8,22 +8,25 @@ public class DiscordSDK : ModuleRules
 	public DiscordSDK(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
-		var nativeDirectory = Path.Combine(PluginDirectory, "Source", "Native");
+		
+		PublicDefinitions.Add("_CRT_SECURE_NO_WARNINGS");
+		
 		PublicIncludePaths.AddRange(
 			new string[]
 			{
-				nativeDirectory
+				Path.Combine(ModuleDirectory, "Native")
 			}
 		);
 		
-		var discordLibrary = Path.Combine(PluginDirectory, "Binaries", "Win64", "discord_game_sdk.dll.lib");
+		var discordLibrary = Path.Combine(PluginDirectory, "Source", "ThirdParty", "Discord", "Win64", "discord_game_sdk.dll.lib");
 		PublicAdditionalLibraries.AddRange(
 			new string[]
 			{
 				discordLibrary
 			}
-		);
+		); 
+		
+		RuntimeDependencies.Add(Path.Combine(PluginDirectory, "Source", "ThirdParty", "Discord", "Win64", "discord_game_sdk.dll"));
 
 		PrivateIncludePaths.AddRange(
 			new string[]
