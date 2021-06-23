@@ -14,15 +14,16 @@ class DISCORDSDK_API UDiscordObject : public UObject
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category="Discord")
-	void Start();
-
-	UFUNCTION(BlueprintCallable, Category="Discord")
-	void Stop();
+	UDiscordObject();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Discord")
 	void Update();
 
-	protected:
-	discord::Core* Core;
+	static discord::Core* GetCore();
+	
+protected:
+	UPROPERTY(BlueprintReadWrite, Category = "Discord")
+	FTimerHandle UpdateTimer;
+	
+	static discord::Core* Core;
 };
