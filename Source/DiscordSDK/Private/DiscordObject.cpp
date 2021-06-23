@@ -3,26 +3,40 @@
 
 #include "DiscordObject.h"
 
-void UDiscordObject::Start()
+discord::Core* UDiscordObject::Core = nullptr;
+
+UDiscordObject::UDiscordObject()
 {
-	auto result = discord::Core::Create(856990392405590106, DiscordCreateFlags_Default, &Core);
-	discord::Activity activity{};
-	activity.SetState("Тестируем");
-	activity.SetDetails("Кушаем чай и пьём конфеты, никакого суецыда");
-	Core->ActivityManager().UpdateActivity(activity, [](discord::Result result)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("UPDATE ACTIVITY %d"), result)
-	});
+	const auto Outer = GetOuter();
+	if (!Outer) { return; }
+
+	const auto World = Outer->GetWorld();
+	if (!World || !World->IsGameWorld()) { return; }
+
+	discord::Core::Create(856990392405590106, DiscordCreateFlags_Default, &UDiscordObject::Core);
+	World->GetTimerManager().SetTimer(
+		UpdateTimer,
+		this,
+		&UDiscordObject::Update,
+		0.05f,
+		true
+	);
 }
 
-void UDiscordObject::Stop()
+discord::Core* UDiscordObject::GetCore()
 {
-	Core->ActivityManager().ClearActivity([&](discord::Result result)
+	return Core;
+}
+
+void UDiscordObject::BeginDestroy()
+{
+	if (Core)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CLEAR ACTIVITY %d"), result)
 		delete Core;
 		Core = nullptr;
-	});
+	}
+
+	Super::BeginDestroy();
 }
 
 void UDiscordObject::Update_Implementation()
