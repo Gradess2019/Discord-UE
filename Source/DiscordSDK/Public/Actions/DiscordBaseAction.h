@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "DiscordEnums.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "DiscordBaseAction.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDiscordActionPin);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDiscordActionPin, EDiscordActionResult, Result);
 
 /**
  * 

@@ -17,8 +17,8 @@ void UDiscordClearActivityAction::Activate()
 	auto Core = UDiscordObject::GetCore();
 	if (!Core) { return; }
 
-	Core->ActivityManager().ClearActivity([&](discord::Result result)
+	Core->ActivityManager().ClearActivity([&](discord::Result Result)
 	{
-		Finished.Broadcast();
+		Finished.Broadcast(static_cast<EDiscordActionResult>(Result));
 	});
 }
