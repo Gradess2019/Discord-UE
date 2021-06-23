@@ -30,8 +30,8 @@ void UDiscordUpdateActivityAction::Activate()
 	activity.SetState(ConvertedState);
 	activity.SetDetails(ConvertedDetails);
 	
-	Core->ActivityManager().UpdateActivity(activity, [&](discord::Result result)
+	Core->ActivityManager().UpdateActivity(activity, [&](discord::Result Result)
 	{
-		Finished.Broadcast();
+		Finished.Broadcast(static_cast<EDiscordActionResult>(Result));
 	});
 }
