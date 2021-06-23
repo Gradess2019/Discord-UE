@@ -19,7 +19,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Discord")
 	void Update();
 
+	// TODO: How can we avoid Singleton pattern here?
 	static discord::Core* GetCore();
+
+	virtual void BeginDestroy() override;
 	
 protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Discord")

@@ -28,6 +28,17 @@ discord::Core* UDiscordObject::GetCore()
 	return Core;
 }
 
+void UDiscordObject::BeginDestroy()
+{
+	if (Core)
+	{
+		delete Core;
+		Core = nullptr;
+	}
+
+	Super::BeginDestroy();
+}
+
 void UDiscordObject::Update_Implementation()
 {
 	if (!Core) { return; }
