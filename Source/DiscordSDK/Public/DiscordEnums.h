@@ -50,3 +50,19 @@ enum class EDiscordActionResult : uint8
 	PurchaseError = 42,
 	TransactionAborted = 43,
 };
+
+UENUM(BlueprintType)
+enum EDiscordActivityType
+{
+	DiscordActivityType_Playing UMETA(DisplayName = "Playing"),
+	DiscordActivityType_Streaming UMETA(DisplayName = "Streaming"),
+	DiscordActivityType_Listening UMETA(DisplayName = "Listening"),
+	DiscordActivityType_Watching UMETA(DisplayName = "Watching"),
+};
+
+UENUM(BlueprintType)
+enum EDiscordActivityActionType {
+	DiscordActivityActionType_None UMETA(DisplayName = "None"),
+	DiscordActivityActionType_Join UMETA(DisplayName = "Join"),
+	DiscordActivityActionType_Spectate UMETA(DisplayName = "Spectate"),
+};

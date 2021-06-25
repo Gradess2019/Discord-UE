@@ -30,3 +30,8 @@ UDiscordUser* UDiscordFunctionLibrary::GetCurrentUser(EDiscordActionResult& OutR
 
 	return DiscordUser;
 }
+
+int64 UDiscordFunctionLibrary::GetUnixTimestamp(const FDateTime& DateTime)
+{
+	return DateTime.ToUnixTimestamp();
+}

@@ -102,18 +102,6 @@ enum EDiscordImageType {
     DiscordImageType_User,
 };
 
-enum EDiscordActivityType {
-    DiscordActivityType_Playing,
-    DiscordActivityType_Streaming,
-    DiscordActivityType_Listening,
-    DiscordActivityType_Watching,
-};
-
-enum EDiscordActivityActionType {
-    DiscordActivityActionType_Join = 1,
-    DiscordActivityActionType_Spectate,
-};
-
 enum EDiscordActivityJoinRequestReply {
     DiscordActivityJoinRequestReply_No,
     DiscordActivityJoinRequestReply_Yes,
