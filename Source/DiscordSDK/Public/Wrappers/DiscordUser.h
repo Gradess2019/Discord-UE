@@ -22,19 +22,22 @@ class DISCORDSDK_API UDiscordUser : public UObject
 public:
 	void Init(const discord::User* InUser);
 
-	UFUNCTION(BlueprintCallable, Category = "Discord|User")
-	UTexture2D* GetAvatar();
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
+	FString GetAvatarHash();
 
 	UFUNCTION(BlueprintCallable, Category = "Discord|User")
+	void GetAvatar();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	bool IsBot();
 
-	UFUNCTION(BlueprintCallable, Category = "Discord|User")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	FString GetDiscriminator();
 
-	UFUNCTION(BlueprintCallable, Category = "Discord|User")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	int64 GetId();
 
-	UFUNCTION(BlueprintCallable, Category = "Discord|User")
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	FString GetUsername();
 
 	virtual void BeginDestroy() override;

@@ -2,17 +2,24 @@
 
 
 #include "Wrappers/DiscordUser.h"
+
+#include "HttpModule.h"
 #include "types.h"
+#include "Interfaces/IHttpResponse.h"
 
 void UDiscordUser::Init(const discord::User* InUser)
 {
 	User = InUser;
 }
 
-UTexture2D* UDiscordUser::GetAvatar()
+FString UDiscordUser::GetAvatarHash()
 {
-	unimplemented();
-	return nullptr;
+	return FString(User->GetAvatar());
+}
+
+void UDiscordUser::GetAvatar()
+{
+	
 }
 
 bool UDiscordUser::IsBot()
