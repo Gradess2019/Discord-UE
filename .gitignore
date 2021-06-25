@@ -166,5 +166,5 @@ Build/Android/res/*
 !Build/Android/res/*/
 Build/Android/res/*/*
 !Build/Android/res/*/*.png
-
 # End of https://www.toptal.com/developers/gitignore/api/rider,unrealengine
+!Source/ThirdParty/**/*
