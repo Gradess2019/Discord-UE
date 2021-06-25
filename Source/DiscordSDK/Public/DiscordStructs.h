@@ -46,6 +46,38 @@ struct FDiscordActivityAssets
 };
 
 USTRUCT(BlueprintType)
+struct FDiscordActivityTimestamps
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	int64 Start;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	int64 End;
+
+	FORCEINLINE discord::ActivityTimestamps* Create() const
+	{
+		const auto Timestamps = new discord::ActivityTimestamps();
+		Init(*Timestamps);
+
+		return Timestamps;
+	}
+	
+	FORCEINLINE void Init(discord::ActivityTimestamps& Timestamps) const
+	{
+		Timestamps.SetStart(Start);
+		Timestamps.SetEnd(End);
+	}
+
+	FORCEINLINE void Init(discord::Activity* Activity) const
+	{
+		auto& Timestamps = Activity->GetTimestamps();
+		Init(Timestamps);
+	}
+};
+
+USTRUCT(BlueprintType)
 struct FDiscordActivity
 {
 	GENERATED_BODY()
@@ -65,6 +97,9 @@ struct FDiscordActivity
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FDiscordActivityAssets Assets;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FDiscordActivityTimestamps Timestamps;
+	
 	FORCEINLINE discord::Activity* Create() const
 	{
 		auto Activity = new discord::Activity();
@@ -72,9 +107,9 @@ struct FDiscordActivity
 		Activity->SetState(TCHAR_TO_ANSI(*State));
 		Activity->SetDetails(TCHAR_TO_ANSI(*Details));
 		Activity->SetType(static_cast<discord::ActivityType>(Type.GetValue()));
-
-		Assets.Init(Activity);
 		
+		Assets.Init(Activity);
+		Timestamps.Init(Activity);
 		return Activity;
 	}
 };
