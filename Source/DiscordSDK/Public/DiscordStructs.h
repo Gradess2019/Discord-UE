@@ -11,13 +11,13 @@ struct FDiscordActivityAssets
 	GENERATED_BODY()
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
-	FString LargeImageHash;
+	FString LargeImageKey;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString LargeText;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
-	FString SmallImageHash;
+	FString SmallImageKey;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString SmallText;
@@ -32,9 +32,9 @@ struct FDiscordActivityAssets
 
 	FORCEINLINE void Init(discord::ActivityAssets& Assets) const
 	{
-		Assets.SetLargeImage(TCHAR_TO_ANSI(*LargeImageHash));
+		Assets.SetLargeImage(TCHAR_TO_ANSI(*LargeImageKey));
 		Assets.SetLargeText(TCHAR_TO_ANSI(*LargeText));
-		Assets.SetSmallImage(TCHAR_TO_ANSI(*SmallImageHash));
+		Assets.SetSmallImage(TCHAR_TO_ANSI(*SmallImageKey));
 		Assets.SetSmallText(TCHAR_TO_ANSI(*SmallText));
 	}
 
@@ -77,6 +77,45 @@ struct FDiscordActivityTimestamps
 	}
 };
 
+
+USTRUCT(BlueprintType)
+struct FDiscordActivityParty
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FString Id;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	int32 CurrentSize;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	int32 MaxSize;
+
+	FORCEINLINE discord::ActivityParty* Create() const
+	{
+		const auto Party = new discord::ActivityParty();
+		Init(*Party);
+
+		return Party;
+	}
+	
+	FORCEINLINE void Init(discord::ActivityParty& Party) const
+	{
+		Party.SetId(TCHAR_TO_ANSI(*Id));
+		
+		auto& Size = Party.GetSize();
+		Size.SetCurrentSize(CurrentSize);
+		Size.SetMaxSize(MaxSize);
+	}
+
+	FORCEINLINE void Init(discord::Activity* Activity) const
+	{
+		auto& Party = Activity->GetParty();
+		Init(Party);
+	}
+};
+
 USTRUCT(BlueprintType)
 struct FDiscordActivity
 {
@@ -100,6 +139,9 @@ struct FDiscordActivity
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FDiscordActivityTimestamps Timestamps;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FDiscordActivityParty Party;
+	
 	FORCEINLINE discord::Activity* Create() const
 	{
 		auto Activity = new discord::Activity();
@@ -110,6 +152,8 @@ struct FDiscordActivity
 		
 		Assets.Init(Activity);
 		Timestamps.Init(Activity);
+		Party.Init(Activity);
+		
 		return Activity;
 	}
 };
