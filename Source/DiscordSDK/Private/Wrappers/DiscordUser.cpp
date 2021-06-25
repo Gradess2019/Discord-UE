@@ -17,11 +17,6 @@ FString UDiscordUser::GetAvatarHash()
 	return FString(User->GetAvatar());
 }
 
-void UDiscordUser::GetAvatar()
-{
-	
-}
-
 bool UDiscordUser::IsBot()
 {
 	return User->GetBot();

@@ -25,9 +25,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	FString GetAvatarHash();
 
-	UFUNCTION(BlueprintCallable, Category = "Discord|User")
-	void GetAvatar();
-
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
 	bool IsBot();
 

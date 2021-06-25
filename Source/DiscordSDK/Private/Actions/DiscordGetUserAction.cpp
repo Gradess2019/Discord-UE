@@ -18,7 +18,6 @@ void UDiscordGetUserAction::Activate()
 	auto Core = UDiscordObject::GetCore();
 	if (!Core) { return; }
 
-	discord::UserId test = 6251;
 	Core->UserManager().GetUser(UserId, [&](discord::Result Result, const discord::User& User)
 	{
 		auto DiscordUser = NewObject<UDiscordUser>();

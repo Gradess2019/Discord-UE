@@ -23,18 +23,12 @@ UDiscordObject::UDiscordObject()
 	);
 }
 
-discord::Core* UDiscordObject::GetCore()
-{
-	return Core;
-}
+discord::Core* UDiscordObject::GetCore() { return Core; }
 
 void UDiscordObject::BeginDestroy()
 {
-	if (Core)
-	{
-		delete Core;
-		Core = nullptr;
-	}
+	delete Core;
+	Core = nullptr;
 
 	Super::BeginDestroy();
 }

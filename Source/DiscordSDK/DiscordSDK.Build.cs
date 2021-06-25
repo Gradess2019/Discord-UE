@@ -53,6 +53,7 @@ public class DiscordSDK : ModuleRules
 				"Slate",
 				"SlateCore",
 				"HTTP",
+				"ImageWrapper",
 				// ... add private dependencies that you statically link with here ...	
 			}
 		);

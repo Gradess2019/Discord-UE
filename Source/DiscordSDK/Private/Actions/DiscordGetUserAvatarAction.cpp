@@ -4,13 +4,16 @@
 #include "Actions/DiscordGetUserAvatarAction.h"
 #include "DiscordObject.h"
 #include "HttpModule.h"
-#include "types.h"
-#include "Misc/Base64.h"
+#include "IImageWrapper.h"
+#include "IImageWrapperModule.h"
 #include "Interfaces/IHttpResponse.h"
+#include "Wrappers/DiscordUser.h"
 
-UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(const int64 UserId)
+UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(UDiscordUser* User, const int32 Size)
 {
-	auto Node = NewObject<UDiscordGetUserAvatarAction>();
+	const auto Node = NewObject<UDiscordGetUserAvatarAction>();
+	Node->User = User;
+	Node->Size = Size;
 	return Node;
 }
 
@@ -19,40 +22,61 @@ void UDiscordGetUserAvatarAction::Activate()
 	auto Core = UDiscordObject::GetCore();
 	if (!Core) { return; }
 
+	const auto UserId = User->GetId();
+	const auto Hash = User->GetAvatarHash();
+	const auto URL = FString::Format(
+		TEXT("https://cdn.discordapp.com/avatars/{0}/{1}.jpg?size={2}"),
+		{UserId, Hash, Size}
+	);
+
 	auto HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetVerb("GET");
 	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("image/jpeg"));
-	HttpRequest->SetURL(FString(
-		"https://cdn.discordapp.com/avatars/330221327464005634/f2fd0423b40e4e1e8c055a32ff28b25f.jpg?size=256")
-	);
-	
-	HttpRequest->OnProcessRequestComplete().BindLambda(
-		[&](FHttpRequestPtr Request, FHttpResponsePtr Response, bool bConnectedSuccessfully)
-		{
-			UTexture2D* Tex2D = UTexture2D::CreateTransient(256, 256, EPixelFormat::PF_FloatRGB);
-
-			auto Size = Response.Get()->GetContentLength();
-			const TArray<uint8>* SrcData = &Response->GetContent();
-			auto ContentType = Response->GetContentType();
-			auto Result = FBase64::Encode(*SrcData);
-
-			// auto Result = BytesToString(SrcData->GetData(), Size);
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *Result)
-			// Fill in the base mip for the texture we created
-			uint8* MipData = (uint8*)Tex2D->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
-			FMemory::Memcpy(MipData, SrcData, Size);
-			Tex2D->PlatformData->Mips[0].BulkData.Unlock();
-
-			Tex2D->PlatformData->SetNumSlices(1);
-			Tex2D->NeverStream = true;
-			Tex2D->Rename(TEXT("UserAvatar"));
-			Tex2D->CompressionSettings = TC_Default;
-
-			// Update the remote texture data
-			Tex2D->UpdateResource();
-			Finished.Broadcast(Tex2D);
-			// UE_LOG(LogTemp, Warning, TEXT("HTTP Request %d, %d, %d"), Request->GetContentLength(), Response->GetContentLength(), bConnectedSuccessfully);
-		});
-
+	HttpRequest->SetURL(URL);
+	HttpRequest->OnProcessRequestComplete().BindUObject(this, &UDiscordGetUserAvatarAction::OnResponse);
 	HttpRequest->ProcessRequest();
+}
+
+void UDiscordGetUserAvatarAction::OnResponse(
+	FHttpRequestPtr Request,
+	FHttpResponsePtr Response,
+	bool bConnectedSuccessfully
+)
+{
+	auto ImageWrapper = GetImageWrapper();
+
+	const auto ImageDataArray = Response->GetContent();
+	const auto bValidImageType = ImageWrapper->SetCompressed(ImageDataArray.GetData(), ImageDataArray.Num());
+	if (!(ImageWrapper.IsValid() || bValidImageType)) { return; }
+
+	auto UncompressedBGRA = TArray<uint8>();
+	const bool bSuccess = ImageWrapper->GetRaw(ERGBFormat::BGRA, 8, UncompressedBGRA);
+	if (!bSuccess) { return; }
+
+	const auto Texture = CreateTexture();
+	FillTexture(Texture, UncompressedBGRA);
+
+	Finished.Broadcast(Texture);
+}
+
+TSharedPtr<IImageWrapper> UDiscordGetUserAvatarAction::GetImageWrapper() const
+{
+	auto& ImageWrapperModule = FModuleManager::LoadModuleChecked<IImageWrapperModule>(FName("ImageWrapper"));
+	return ImageWrapperModule.CreateImageWrapper(EImageFormat::JPEG);
+}
+
+UTexture2D* UDiscordGetUserAvatarAction::CreateTexture() const
+{
+	auto Texture = UTexture2D::CreateTransient(Size, Size, PF_B8G8R8A8);
+	Texture->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
+	return Texture;
+}
+
+void UDiscordGetUserAvatarAction::FillTexture(UTexture2D* Texture, const TArray<uint8>& Data) const
+{
+	const auto TextureData = Texture->PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
+	FMemory::Memcpy(TextureData, Data.GetData(), Data.Num());
+	Texture->PlatformData->Mips[0].BulkData.Unlock();
+
+	Texture->UpdateResource();
 }
