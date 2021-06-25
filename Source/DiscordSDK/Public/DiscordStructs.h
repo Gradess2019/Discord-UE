@@ -205,10 +205,25 @@ USTRUCT(BlueprintType)
 struct FDiscordActivityManagerData
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity")
 	FString Command;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity", meta=(MakeStructureDefaultValue = "-1"))
 	int64 SteamAppId;
+};
+
+USTRUCT(BlueprintType)
+struct FDiscordSendInviteData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity")
+	int64 UserId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity")
+	TEnumAsByte<EDiscordActivityActionType> Type;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity")
+	FString Content;
 };

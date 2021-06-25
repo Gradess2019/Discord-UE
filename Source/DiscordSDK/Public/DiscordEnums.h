@@ -59,3 +59,10 @@ enum EDiscordActivityType
 	DiscordActivityType_Listening UMETA(DisplayName = "Listening"),
 	DiscordActivityType_Watching UMETA(DisplayName = "Watching"),
 };
+
+UENUM(BlueprintType)
+enum EDiscordActivityActionType {
+	DiscordActivityActionType_None UMETA(DisplayName = "None"),
+	DiscordActivityActionType_Join UMETA(DisplayName = "Join"),
+	DiscordActivityActionType_Spectate UMETA(DisplayName = "Spectate"),
+};
