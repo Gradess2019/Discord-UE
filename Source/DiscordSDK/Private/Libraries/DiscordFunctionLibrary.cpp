@@ -2,6 +2,8 @@
 
 
 #include "Libraries/DiscordFunctionLibrary.h"
+#include "DiscordObject.h"
+#include "Wrappers/DiscordUser.h"
 
 int64 UDiscordFunctionLibrary::StringToInt64(const FString& String)
 {
@@ -11,4 +13,20 @@ int64 UDiscordFunctionLibrary::StringToInt64(const FString& String)
 FString UDiscordFunctionLibrary::Int64ToString(const int64& Number)
 {
 	return FString::Printf(TEXT("%lld"), Number);
+}
+
+UDiscordUser* UDiscordFunctionLibrary::GetCurrentUser(EDiscordActionResult& OutResult)
+{
+	auto Core = UDiscordObject::GetCore();
+	if (!Core) { return nullptr; }
+
+	discord::User* User = new discord::User();
+	OutResult = static_cast<EDiscordActionResult>(Core->UserManager().GetCurrentUser(User));
+	
+	if (!User) { return nullptr; }
+
+	auto DiscordUser = NewObject<UDiscordUser>();
+	DiscordUser->Init(User);
+
+	return DiscordUser;
 }

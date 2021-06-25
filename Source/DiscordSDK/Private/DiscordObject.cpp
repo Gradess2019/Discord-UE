@@ -21,6 +21,12 @@ UDiscordObject::UDiscordObject()
 		0.05f,
 		true
 	);
+
+	Core->UserManager().OnCurrentUserUpdate.Connect([&]()
+	{
+		UE_LOG(LogTemp, Log, TEXT("User manager initialized"));
+		Core->UserManager().OnCurrentUserUpdate.DisconnectAll();
+	});
 }
 
 discord::Core* UDiscordObject::GetCore() { return Core; }

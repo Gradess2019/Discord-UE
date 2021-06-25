@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ffi.h"
+#include "DiscordEnums.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "DiscordFunctionLibrary.generated.h"
+
+class UDiscordUser;
 
 /**
  * 
@@ -20,4 +24,6 @@ class DISCORDSDK_API UDiscordFunctionLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord")
 	static FString Int64ToString(const int64& Number);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Discord|User")
+	static UDiscordUser* GetCurrentUser(EDiscordActionResult& OutResult);
 };
