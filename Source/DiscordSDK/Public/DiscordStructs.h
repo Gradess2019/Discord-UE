@@ -9,16 +9,16 @@ USTRUCT(BlueprintType)
 struct FDiscordActivityAssets
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString LargeImageKey;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString LargeText;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString SmallImageKey;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString SmallText;
 
@@ -49,10 +49,10 @@ USTRUCT(BlueprintType)
 struct FDiscordActivityTimestamps
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	int64 Start;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	int64 End;
 
@@ -63,7 +63,7 @@ struct FDiscordActivityTimestamps
 
 		return Timestamps;
 	}
-	
+
 	FORCEINLINE void Init(discord::ActivityTimestamps& Timestamps) const
 	{
 		Timestamps.SetStart(Start);
@@ -77,15 +77,14 @@ struct FDiscordActivityTimestamps
 	}
 };
 
-
 USTRUCT(BlueprintType)
 struct FDiscordActivityParty
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FString Id;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	int32 CurrentSize;
 
@@ -99,11 +98,11 @@ struct FDiscordActivityParty
 
 		return Party;
 	}
-	
+
 	FORCEINLINE void Init(discord::ActivityParty& Party) const
 	{
 		Party.SetId(TCHAR_TO_ANSI(*Id));
-		
+
 		auto& Size = Party.GetSize();
 		Size.SetCurrentSize(CurrentSize);
 		Size.SetMaxSize(MaxSize);
@@ -113,6 +112,42 @@ struct FDiscordActivityParty
 	{
 		auto& Party = Activity->GetParty();
 		Init(Party);
+	}
+};
+
+USTRUCT(BlueprintType)
+struct FDiscordActivitySecrets
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FString Match;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FString Join;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FString Spectate;
+
+	FORCEINLINE discord::ActivitySecrets* Create() const
+	{
+		const auto Secrets = new discord::ActivitySecrets();
+		Init(*Secrets);
+
+		return Secrets;
+	}
+
+	FORCEINLINE void Init(discord::ActivitySecrets& Secrets) const
+	{
+		Secrets.SetMatch(TCHAR_TO_ANSI(*Match));
+		Secrets.SetJoin(TCHAR_TO_ANSI(*Join));
+		Secrets.SetSpectate(TCHAR_TO_ANSI(*Spectate));
+	}
+
+	FORCEINLINE void Init(discord::Activity* Activity) const
+	{
+		auto& Secrets = Activity->GetSecrets();
+		Init(Secrets);
 	}
 };
 
@@ -141,10 +176,13 @@ struct FDiscordActivity
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FDiscordActivityTimestamps Timestamps;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FDiscordActivityParty Party;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	FDiscordActivitySecrets Secrets;
+
 	FORCEINLINE discord::Activity* Create() const
 	{
 		auto Activity = new discord::Activity();
@@ -157,6 +195,7 @@ struct FDiscordActivity
 		Assets.Init(Activity);
 		Timestamps.Init(Activity);
 		Party.Init(Activity);
+		Secrets.Init(Activity);
 
 		return Activity;
 	}
