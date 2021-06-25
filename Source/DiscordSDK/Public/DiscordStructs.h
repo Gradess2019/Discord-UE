@@ -134,6 +134,9 @@ struct FDiscordActivity
 	TEnumAsByte<EDiscordActivityType> Type;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
+	bool bInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
 	FDiscordActivityAssets Assets;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Discord|Activity")
@@ -149,11 +152,12 @@ struct FDiscordActivity
 		Activity->SetState(TCHAR_TO_ANSI(*State));
 		Activity->SetDetails(TCHAR_TO_ANSI(*Details));
 		Activity->SetType(static_cast<discord::ActivityType>(Type.GetValue()));
-		
+		Activity->SetInstance(bInstance);
+
 		Assets.Init(Activity);
 		Timestamps.Init(Activity);
 		Party.Init(Activity);
-		
+
 		return Activity;
 	}
 };
