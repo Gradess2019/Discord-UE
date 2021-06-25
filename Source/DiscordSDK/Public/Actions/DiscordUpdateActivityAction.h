@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "DiscordBaseAction.h"
+#include "DiscordStructs.h"
 #include "types.h"
 
 #include "DiscordUpdateActivityAction.generated.h"
@@ -21,18 +22,11 @@ public:
 	FDiscordActionPin Finished;
 
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true", WorldContext = "WorldContextObject"))
-	static UDiscordUpdateActivityAction* UpdateActivity(
-		const FString State,
-		const FString Details
-	);
+	static UDiscordUpdateActivityAction* UpdateActivity(const FDiscordActivity& Activity);
 
 	virtual void Activate() override;
 
 private:
 	UPROPERTY()
-	FString State;
-
-	UPROPERTY()
-	FString Details;
-	
+	FDiscordActivity Activity;
 };
