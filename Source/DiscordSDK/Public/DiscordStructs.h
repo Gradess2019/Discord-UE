@@ -200,3 +200,15 @@ struct FDiscordActivity
 		return Activity;
 	}
 };
+
+USTRUCT(BlueprintType)
+struct FDiscordActivityManagerData
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity")
+	FString Command;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Discord|Activity", meta=(MakeStructureDefaultValue = "-1"))
+	int64 SteamAppId;
+};
