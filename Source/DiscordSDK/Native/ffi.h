@@ -102,12 +102,6 @@ enum EDiscordImageType {
     DiscordImageType_User,
 };
 
-enum EDiscordActivityJoinRequestReply {
-    DiscordActivityJoinRequestReply_No,
-    DiscordActivityJoinRequestReply_Yes,
-    DiscordActivityJoinRequestReply_Ignore,
-};
-
 enum EDiscordStatus {
     DiscordStatus_Offline = 0,
     DiscordStatus_Online = 1,
