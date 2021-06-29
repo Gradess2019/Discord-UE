@@ -66,3 +66,10 @@ enum EDiscordActivityActionType {
 	DiscordActivityActionType_Join UMETA(DisplayName = "Join"),
 	DiscordActivityActionType_Spectate UMETA(DisplayName = "Spectate"),
 };
+
+UENUM(BlueprintType)
+enum EDiscordActivityJoinRequestReply {
+	DiscordActivityJoinRequestReply_No UMETA(DisplayName="No"),
+	DiscordActivityJoinRequestReply_Yes UMETA(DisplayName="Yes"),
+	DiscordActivityJoinRequestReply_Ignore UMETA(DisplayName="Ignore"),
+};
