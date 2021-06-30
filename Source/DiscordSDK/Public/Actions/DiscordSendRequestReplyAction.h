@@ -8,7 +8,7 @@
 #include "DiscordSendRequestReplyAction.generated.h"
 
 /**
- * 
+ * Send request reply in discord, like yes or no
  */
 UCLASS()
 class DISCORDSDK_API UDiscordSendRequestReplyAction : public UDiscordBaseAction
@@ -16,12 +16,12 @@ class DISCORDSDK_API UDiscordSendRequestReplyAction : public UDiscordBaseAction
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(
-		BlueprintAssignable,
-		Category = "Discord|Actions"
-	)
-	FDiscordActionPin Finished;
-
+	/**
+	 * @brief Send request reply in discord
+	 * @param UserId the user id of the person who asked to join
+	 * @param Reply No, Yes, or Ignore
+	 * @return action node
+	 */
 	UFUNCTION(
 		BlueprintCallable,
 		Category = "Discord|Actions",
@@ -35,9 +35,15 @@ public:
 	virtual void Activate() override;
 
 private:
+	/**
+	 * @brief the user id of the person who asked to join
+	 */
 	UPROPERTY()
 	int64 UserId;
 
+	/**
+	 * @brief No, Yes, or Ignore
+	 */
 	UPROPERTY()
 	TEnumAsByte<EDiscordActivityJoinRequestReply> Reply;
 };

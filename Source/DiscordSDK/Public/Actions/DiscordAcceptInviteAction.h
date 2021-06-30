@@ -7,7 +7,7 @@
 #include "DiscordAcceptInviteAction.generated.h"
 
 /**
- * 
+ * Accepts a game invitation from a given userId
  */
 UCLASS()
 class DISCORDSDK_API UDiscordAcceptInviteAction : public UDiscordBaseAction
@@ -15,15 +15,23 @@ class DISCORDSDK_API UDiscordAcceptInviteAction : public UDiscordBaseAction
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintAssignable)
-	FDiscordActionPin Finished;
-
-	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
+	/**
+	 * @brief Accepts a game invitation from a given userId
+	 * @param UserId Sender's user id
+	 * @return Action node
+	 */
+	UFUNCTION(
+		BlueprintCallable,
+		meta = (BlueprintInternalUseOnly = "true")
+	)
 	static UDiscordAcceptInviteAction* AcceptInvite(const int64 UserId);
 
 	virtual void Activate() override;
 
 protected:
+	/**
+	 * @brief Sender's user id
+	 */
 	UPROPERTY()
 	int64 UserId;
 };

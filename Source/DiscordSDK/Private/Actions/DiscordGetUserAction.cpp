@@ -8,7 +8,7 @@
 
 UDiscordGetUserAction* UDiscordGetUserAction::GetUser(const int64 UserId)
 {
-	auto Node = NewObject<UDiscordGetUserAction>();
+	const auto Node = NewObject<UDiscordGetUserAction>();
 	Node->UserId = UserId;
 	return Node;
 }

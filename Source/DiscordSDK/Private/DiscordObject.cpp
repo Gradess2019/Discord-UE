@@ -93,6 +93,12 @@ void UDiscordObject::InitTimer(UWorld* World)
 	);
 }
 
+void UDiscordObject::Update_Implementation()
+{
+	if (!Core) { return; }
+	Core->RunCallbacks();
+}
+
 discord::Core* UDiscordObject::GetCore() { return Core; }
 
 void UDiscordObject::BeginDestroy()
@@ -101,12 +107,6 @@ void UDiscordObject::BeginDestroy()
 	Core = nullptr;
 
 	Super::BeginDestroy();
-}
-
-void UDiscordObject::Update_Implementation()
-{
-	if (!Core) { return; }
-	Core->RunCallbacks();
 }
 
 void UDiscordObject::OnActivityInviteCallback(

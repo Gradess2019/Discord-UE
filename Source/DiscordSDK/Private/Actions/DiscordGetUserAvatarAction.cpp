@@ -43,6 +43,8 @@ void UDiscordGetUserAvatarAction::OnResponse(
 	bool bConnectedSuccessfully
 )
 {
+	if (!bConnectedSuccessfully) { return; }
+	
 	auto ImageWrapper = GetImageWrapper();
 
 	const auto ImageDataArray = Response->GetContent();

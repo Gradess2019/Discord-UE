@@ -15,6 +15,16 @@ FString UDiscordFunctionLibrary::Int64ToString(const int64& Number)
 	return FString::Printf(TEXT("%lld"), Number);
 }
 
+int64 UDiscordFunctionLibrary::TextToInt64(const FText& Text)
+{
+	return StringToInt64(Text.ToString());
+}
+
+FText UDiscordFunctionLibrary::Int64ToText(const int64& Number)
+{
+	return FText::AsNumber(Number);
+}
+
 UDiscordUser* UDiscordFunctionLibrary::GetCurrentUser(EDiscordActionResult& OutResult)
 {
 	auto Core = UDiscordObject::GetCore();

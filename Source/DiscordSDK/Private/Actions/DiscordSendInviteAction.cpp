@@ -6,7 +6,9 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordSendInviteAction* UDiscordSendInviteAction::SendInvite(const FDiscordSendInviteData& Data)
+UDiscordSendInviteAction* UDiscordSendInviteAction::SendInvite(
+	const FDiscordSendInviteData& Data
+)
 {
 	UDiscordSendInviteAction* Node = NewObject<UDiscordSendInviteAction>();
 	Node->Data = Data;
