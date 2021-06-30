@@ -6,7 +6,9 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordAcceptInviteAction* UDiscordAcceptInviteAction::AcceptInvite(const int64 UserId)
+UDiscordAcceptInviteAction* UDiscordAcceptInviteAction::AcceptInvite(
+	const int64 UserId
+)
 {
 	UDiscordAcceptInviteAction* Node = NewObject<UDiscordAcceptInviteAction>();
 	Node->UserId = UserId;

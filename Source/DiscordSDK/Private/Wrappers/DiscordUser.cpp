@@ -7,7 +7,9 @@
 #include "types.h"
 #include "Interfaces/IHttpResponse.h"
 
-void UDiscordUser::Init(const discord::User* InUser)
+void UDiscordUser::Init(
+	const discord::User* InUser
+)
 {
 	User = InUser;
 }

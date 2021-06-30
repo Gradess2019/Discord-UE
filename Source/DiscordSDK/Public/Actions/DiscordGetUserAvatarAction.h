@@ -32,6 +32,7 @@ public:
 	 */
 	UFUNCTION(
 		BlueprintCallable,
+		Category = "Discord|Actions",
 		meta = (BlueprintInternalUseOnly = "true")
 	)
 	static UDiscordGetUserAvatarAction* GetUserAvatar(

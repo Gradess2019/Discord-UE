@@ -45,7 +45,11 @@ public:
 	 * @brief Initialize discord object
 	 * @param ActivityManager Manager data that will be used in discord
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Discord|Core")
+	UFUNCTION(
+		BlueprintNativeEvent,
+		BlueprintCallable,
+		Category = "Discord|Core"
+	)
 	void Init(
 		const FDiscordActivityManagerData& ActivityManager
 	);
@@ -68,7 +72,10 @@ protected:
 	 * @param ActivityManager Manager data that will be used in discord
 	 * @return action result, like "ok", "failed", etc.
 	 */
-	UFUNCTION(BlueprintCallable, Category = "Discord|Core")
+	UFUNCTION(
+		BlueprintCallable,
+		Category = "Discord|Core"
+	)
 	EDiscordActionResult InitActivityManager(
 		const FDiscordActivityManagerData& ActivityManager
 	);
@@ -78,7 +85,9 @@ protected:
 	 * @param World World to get timer manager
 	 */
 	UFUNCTION()
-	void InitTimer(UWorld* World);
+	void InitTimer(
+		UWorld* World
+	);
 
 public:
 	/**

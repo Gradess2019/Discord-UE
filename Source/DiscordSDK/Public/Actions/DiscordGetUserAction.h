@@ -27,6 +27,7 @@ public:
 	 */
 	UFUNCTION(
 		BlueprintCallable,
+		Category = "Discord|Actions",
 		meta = (BlueprintInternalUseOnly = "true")
 	)
 	static UDiscordGetUserAction* GetUser(
@@ -39,7 +40,8 @@ public:
 	 * @brief Fires when action is finished
 	 */
 	UPROPERTY(
-		BlueprintAssignable
+		BlueprintAssignable,
+		Category = "Discord|Actions"
 	)
 	FDiscordUserActionPin Finished;
 

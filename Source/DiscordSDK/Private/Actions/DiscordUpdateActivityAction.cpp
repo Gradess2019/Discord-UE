@@ -6,7 +6,9 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordUpdateActivityAction* UDiscordUpdateActivityAction::UpdateActivity(const FDiscordActivity& Activity)
+UDiscordUpdateActivityAction* UDiscordUpdateActivityAction::UpdateActivity(
+	const FDiscordActivity& Activity
+)
 {
 	UDiscordUpdateActivityAction* Node = NewObject<UDiscordUpdateActivityAction>();
 	Node->Activity = Activity;

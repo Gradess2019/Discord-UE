@@ -25,9 +25,12 @@ public:
 	 */
 	UFUNCTION(
 		BlueprintCallable,
+		Category = "Discord|Actions",
 		meta = (BlueprintInternalUseOnly = "true")
 	)
-	static UDiscordUpdateActivityAction* UpdateActivity(const FDiscordActivity& Activity);
+	static UDiscordUpdateActivityAction* UpdateActivity(
+		const FDiscordActivity& Activity
+	);
 
 	virtual void Activate() override;
 

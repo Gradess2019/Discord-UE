@@ -6,7 +6,9 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordGetUserAction* UDiscordGetUserAction::GetUser(const int64 UserId)
+UDiscordGetUserAction* UDiscordGetUserAction::GetUser(
+	const int64 UserId
+)
 {
 	const auto Node = NewObject<UDiscordGetUserAction>();
 	Node->UserId = UserId;

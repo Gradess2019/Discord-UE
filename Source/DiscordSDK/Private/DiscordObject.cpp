@@ -7,7 +7,9 @@
 
 discord::Core* UDiscordObject::Core = nullptr;
 
-void UDiscordObject::Init_Implementation(const FDiscordActivityManagerData& ActivityManager)
+void UDiscordObject::Init_Implementation(
+	const FDiscordActivityManagerData& ActivityManager
+)
 {
 	const auto Outer = GetOuter();
 	if (!Outer) { return; }
@@ -35,7 +37,9 @@ void UDiscordObject::InitUserManager()
 	});
 }
 
-EDiscordActionResult UDiscordObject::InitActivityManager(const FDiscordActivityManagerData& ActivityManager)
+EDiscordActionResult UDiscordObject::InitActivityManager(
+	const FDiscordActivityManagerData& ActivityManager
+)
 {
 	discord::Result Result = discord::Result::NotFound;
 
@@ -82,7 +86,9 @@ EDiscordActionResult UDiscordObject::InitActivityManager(const FDiscordActivityM
 	return static_cast<EDiscordActionResult>(Result);
 }
 
-void UDiscordObject::InitTimer(UWorld* World)
+void UDiscordObject::InitTimer(
+	UWorld* World
+)
 {
 	World->GetTimerManager().SetTimer(
 		UpdateTimer,

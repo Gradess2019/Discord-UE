@@ -9,7 +9,10 @@
 #include "Interfaces/IHttpResponse.h"
 #include "Wrappers/DiscordUser.h"
 
-UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(UDiscordUser* User, const int32 Size)
+UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(
+	UDiscordUser* User,
+	const int32 Size
+)
 {
 	const auto Node = NewObject<UDiscordGetUserAvatarAction>();
 	Node->User = User;
