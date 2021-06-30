@@ -2,7 +2,7 @@
 
 
 #include "DiscordObject.h"
-
+#include "Engine/World.h"
 #include "Wrappers/DiscordUser.h"
 
 discord::Core* UDiscordObject::Core = nullptr;

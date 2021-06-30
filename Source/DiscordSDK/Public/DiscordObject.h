@@ -2,12 +2,14 @@
 
 #pragma once
 #include "CoreMinimal.h"
-
+#include "Engine/EngineTypes.h"
+#include "TimerManager.h"
 #include "DiscordEnums.h"
 #include "DiscordStructs.h"
 #include "DiscordSDK/Native/core.h"
 #include "DiscordObject.generated.h"
 
+class UWorld;
 class UDiscordUser;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(

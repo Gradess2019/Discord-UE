@@ -3,11 +3,16 @@
 
 #include "Actions/DiscordGetUserAvatarAction.h"
 #include "DiscordObject.h"
+#include "Modules/ModuleManager.h"
 #include "HttpModule.h"
 #include "IImageWrapper.h"
 #include "IImageWrapperModule.h"
 #include "Interfaces/IHttpResponse.h"
 #include "Wrappers/DiscordUser.h"
+#include "Engine/TextureDefines.h"
+#include "Engine/Texture2D.h"
+#include "PixelFormat.h"
+#include "Serialization/BulkData.h"
 
 UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(
 	UDiscordUser* User,
@@ -47,7 +52,7 @@ void UDiscordGetUserAvatarAction::OnResponse(
 )
 {
 	if (!bConnectedSuccessfully) { return; }
-	
+
 	auto ImageWrapper = GetImageWrapper();
 
 	const auto ImageDataArray = Response->GetContent();
@@ -73,7 +78,11 @@ TSharedPtr<IImageWrapper> UDiscordGetUserAvatarAction::GetImageWrapper() const
 UTexture2D* UDiscordGetUserAvatarAction::CreateTexture() const
 {
 	auto Texture = UTexture2D::CreateTransient(Size, Size, PF_B8G8R8A8);
+
+#if WITH_EDITORONLY_DATA
 	Texture->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
+#endif
+
 	return Texture;
 }
 

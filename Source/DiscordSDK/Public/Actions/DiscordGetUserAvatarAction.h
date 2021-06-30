@@ -7,13 +7,14 @@
 #include "Interfaces/IHttpRequest.h"
 #include "DiscordGetUserAvatarAction.generated.h"
 
+class IImageWrapper;
+class UDiscordUser;
+class UTexture2D;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(
 	FDiscordUserAvatarPin,
 	UTexture2D*, Avatar
 );
-
-class IImageWrapper;
-class UDiscordUser;
 
 /**
  * Get discord user avatar image
