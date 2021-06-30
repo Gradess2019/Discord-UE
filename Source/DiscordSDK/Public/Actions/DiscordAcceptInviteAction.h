@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Created by Stepan Trofimov, 2021
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "DiscordAcceptInviteAction.generated.h"
 
 /**
- * 
+ * Accepts a game invitation from a given userId
  */
 UCLASS()
 class DISCORDSDK_API UDiscordAcceptInviteAction : public UDiscordBaseAction
@@ -15,15 +15,24 @@ class DISCORDSDK_API UDiscordAcceptInviteAction : public UDiscordBaseAction
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintAssignable)
-	FDiscordActionPin Finished;
-
-	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"))
+	/**
+	 * @brief Accepts a game invitation from a given userId
+	 * @param UserId Sender's user id
+	 * @return Action node
+	 */
+	UFUNCTION(
+		BlueprintCallable,
+		Category = "Discord|Actions",
+		meta = (BlueprintInternalUseOnly = "true")
+	)
 	static UDiscordAcceptInviteAction* AcceptInvite(const int64 UserId);
 
 	virtual void Activate() override;
 
 protected:
+	/**
+	 * @brief Sender's user id
+	 */
 	UPROPERTY()
 	int64 UserId;
 };

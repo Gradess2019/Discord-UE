@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Created by Stepan Trofimov, 2021
 
 
 #include "Actions/DiscordGetUserAction.h"
@@ -6,9 +6,11 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordGetUserAction* UDiscordGetUserAction::GetUser(const int64 UserId)
+UDiscordGetUserAction* UDiscordGetUserAction::GetUser(
+	const int64 UserId
+)
 {
-	auto Node = NewObject<UDiscordGetUserAction>();
+	const auto Node = NewObject<UDiscordGetUserAction>();
 	Node->UserId = UserId;
 	return Node;
 }

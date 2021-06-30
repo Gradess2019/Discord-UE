@@ -1,15 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Created by Stepan Trofimov, 2021
 
 
 #include "Actions/DiscordGetUserAvatarAction.h"
 #include "DiscordObject.h"
+#include "Modules/ModuleManager.h"
 #include "HttpModule.h"
 #include "IImageWrapper.h"
 #include "IImageWrapperModule.h"
 #include "Interfaces/IHttpResponse.h"
 #include "Wrappers/DiscordUser.h"
+#include "Engine/TextureDefines.h"
+#include "Engine/Texture2D.h"
+#include "PixelFormat.h"
+#include "Serialization/BulkData.h"
 
-UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(UDiscordUser* User, const int32 Size)
+UDiscordGetUserAvatarAction* UDiscordGetUserAvatarAction::GetUserAvatar(
+	UDiscordUser* User,
+	const int32 Size
+)
 {
 	const auto Node = NewObject<UDiscordGetUserAvatarAction>();
 	Node->User = User;
@@ -43,6 +51,8 @@ void UDiscordGetUserAvatarAction::OnResponse(
 	bool bConnectedSuccessfully
 )
 {
+	if (!bConnectedSuccessfully) { return; }
+
 	auto ImageWrapper = GetImageWrapper();
 
 	const auto ImageDataArray = Response->GetContent();
@@ -68,7 +78,11 @@ TSharedPtr<IImageWrapper> UDiscordGetUserAvatarAction::GetImageWrapper() const
 UTexture2D* UDiscordGetUserAvatarAction::CreateTexture() const
 {
 	auto Texture = UTexture2D::CreateTransient(Size, Size, PF_B8G8R8A8);
+
+#if WITH_EDITORONLY_DATA
 	Texture->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
+#endif
+
 	return Texture;
 }
 

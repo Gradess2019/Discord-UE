@@ -2,6 +2,9 @@
 #include "CoreMinimal.h"
 #include "DiscordEnums.generated.h"
 
+/**
+ * @brief Result of discord action
+ */
 UENUM(BlueprintType)
 enum class EDiscordActionResult : uint8
 {
@@ -51,6 +54,9 @@ enum class EDiscordActionResult : uint8
 	TransactionAborted = 43,
 };
 
+/**
+ * @brief Activity type, like playing, streaming, etc.
+ */
 UENUM(BlueprintType)
 enum EDiscordActivityType
 {
@@ -60,6 +66,9 @@ enum EDiscordActivityType
 	DiscordActivityType_Watching UMETA(DisplayName = "Watching"),
 };
 
+/**
+ * @brief Activity action type, like join or spectate
+ */
 UENUM(BlueprintType)
 enum EDiscordActivityActionType {
 	DiscordActivityActionType_None UMETA(DisplayName = "None"),
@@ -67,6 +76,9 @@ enum EDiscordActivityActionType {
 	DiscordActivityActionType_Spectate UMETA(DisplayName = "Spectate"),
 };
 
+/**
+ * @brief Activity join request reply, like yes, no or ignore
+ */
 UENUM(BlueprintType)
 enum EDiscordActivityJoinRequestReply {
 	DiscordActivityJoinRequestReply_No UMETA(DisplayName="No"),

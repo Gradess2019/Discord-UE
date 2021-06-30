@@ -1,13 +1,16 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Created by Stepan Trofimov, 2021
 
 
 #include "DiscordObject.h"
-
+#include "Engine/World.h"
 #include "Wrappers/DiscordUser.h"
 
 discord::Core* UDiscordObject::Core = nullptr;
 
-void UDiscordObject::Init_Implementation(const FDiscordActivityManagerData& ActivityManager)
+void UDiscordObject::Init_Implementation(
+	const FDiscordActivityManagerData& ActivityManager,
+	const int64 AppId
+)
 {
 	const auto Outer = GetOuter();
 	if (!Outer) { return; }
@@ -15,15 +18,15 @@ void UDiscordObject::Init_Implementation(const FDiscordActivityManagerData& Acti
 	const auto World = Outer->GetWorld();
 	if (!World || !World->IsGameWorld()) { return; }
 
-	InitCore();
+	InitCore(AppId);
 	InitUserManager();
 	InitActivityManager(ActivityManager);
 	InitTimer(World);
 }
 
-void UDiscordObject::InitCore()
+void UDiscordObject::InitCore(int64 AppId)
 {
-	discord::Core::Create(856990392405590106, DiscordCreateFlags_Default, &UDiscordObject::Core);
+	discord::Core::Create(AppId, DiscordCreateFlags_Default, &UDiscordObject::Core);
 }
 
 void UDiscordObject::InitUserManager()
@@ -35,7 +38,9 @@ void UDiscordObject::InitUserManager()
 	});
 }
 
-EDiscordActionResult UDiscordObject::InitActivityManager(const FDiscordActivityManagerData& ActivityManager)
+EDiscordActionResult UDiscordObject::InitActivityManager(
+	const FDiscordActivityManagerData& ActivityManager
+)
 {
 	discord::Result Result = discord::Result::NotFound;
 
@@ -82,7 +87,9 @@ EDiscordActionResult UDiscordObject::InitActivityManager(const FDiscordActivityM
 	return static_cast<EDiscordActionResult>(Result);
 }
 
-void UDiscordObject::InitTimer(UWorld* World)
+void UDiscordObject::InitTimer(
+	UWorld* World
+)
 {
 	World->GetTimerManager().SetTimer(
 		UpdateTimer,
@@ -93,6 +100,12 @@ void UDiscordObject::InitTimer(UWorld* World)
 	);
 }
 
+void UDiscordObject::Update_Implementation()
+{
+	if (!Core) { return; }
+	Core->RunCallbacks();
+}
+
 discord::Core* UDiscordObject::GetCore() { return Core; }
 
 void UDiscordObject::BeginDestroy()
@@ -101,12 +114,6 @@ void UDiscordObject::BeginDestroy()
 	Core = nullptr;
 
 	Super::BeginDestroy();
-}
-
-void UDiscordObject::Update_Implementation()
-{
-	if (!Core) { return; }
-	Core->RunCallbacks();
 }
 
 void UDiscordObject::OnActivityInviteCallback(

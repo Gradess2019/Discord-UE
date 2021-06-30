@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Created by Stepan Trofimov, 2021
 
 
 #include "Actions/DiscordSendInviteAction.h"
@@ -6,7 +6,9 @@
 #include "DiscordObject.h"
 #include "types.h"
 
-UDiscordSendInviteAction* UDiscordSendInviteAction::SendInvite(const FDiscordSendInviteData& Data)
+UDiscordSendInviteAction* UDiscordSendInviteAction::SendInvite(
+	const FDiscordSendInviteData& Data
+)
 {
 	UDiscordSendInviteAction* Node = NewObject<UDiscordSendInviteAction>();
 	Node->Data = Data;
