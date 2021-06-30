@@ -46,6 +46,7 @@ public:
 	/**
 	 * @brief Initialize discord object
 	 * @param ActivityManager Manager data that will be used in discord
+	 * @param AppId Application id at https://discord.com/developers/applications
 	 */
 	UFUNCTION(
 		BlueprintNativeEvent,
@@ -53,15 +54,19 @@ public:
 		Category = "Discord|Core"
 	)
 	void Init(
-		const FDiscordActivityManagerData& ActivityManager
+		const FDiscordActivityManagerData& ActivityManager,
+		const int64 AppId
 	);
 
 protected:
 	/**
 	 * @brief Initialize core discord object
+	 * @param AppId Application id at https://discord.com/developers/applications
 	 */
 	UFUNCTION()
-	void InitCore();
+	void InitCore(
+		int64 AppId
+	);
 
 	/**
 	 * @brief Initialize discord user manager

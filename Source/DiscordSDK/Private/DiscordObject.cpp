@@ -8,7 +8,8 @@
 discord::Core* UDiscordObject::Core = nullptr;
 
 void UDiscordObject::Init_Implementation(
-	const FDiscordActivityManagerData& ActivityManager
+	const FDiscordActivityManagerData& ActivityManager,
+	const int64 AppId
 )
 {
 	const auto Outer = GetOuter();
@@ -17,15 +18,15 @@ void UDiscordObject::Init_Implementation(
 	const auto World = Outer->GetWorld();
 	if (!World || !World->IsGameWorld()) { return; }
 
-	InitCore();
+	InitCore(AppId);
 	InitUserManager();
 	InitActivityManager(ActivityManager);
 	InitTimer(World);
 }
 
-void UDiscordObject::InitCore()
+void UDiscordObject::InitCore(int64 AppId)
 {
-	discord::Core::Create(856990392405590106, DiscordCreateFlags_Default, &UDiscordObject::Core);
+	discord::Core::Create(AppId, DiscordCreateFlags_Default, &UDiscordObject::Core);
 }
 
 void UDiscordObject::InitUserManager()
