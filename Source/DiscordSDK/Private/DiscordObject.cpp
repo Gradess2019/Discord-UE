@@ -4,12 +4,14 @@
 #include "DiscordObject.h"
 #include "Engine/World.h"
 #include "Wrappers/DiscordUser.h"
+#include "GenericPlatform/GenericPlatformMisc.h"
 
 discord::Core* UDiscordObject::Core = nullptr;
 
 void UDiscordObject::Init_Implementation(
 	const FDiscordActivityManagerData& ActivityManager,
-	const int64 AppId
+	const int64 AppId,
+	const int32 DiscordInstanceId
 )
 {
 	const auto Outer = GetOuter();
@@ -18,6 +20,7 @@ void UDiscordObject::Init_Implementation(
 	const auto World = Outer->GetWorld();
 	if (!World || !World->IsGameWorld()) { return; }
 
+	FPlatformMisc::SetEnvironmentVar(ANSI_TO_TCHAR("DISCORD_INSTANCE_ID"), *FString::FromInt(DiscordInstanceId));
 	InitCore(AppId);
 	InitUserManager();
 	InitActivityManager(ActivityManager);
