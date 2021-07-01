@@ -47,6 +47,7 @@ public:
 	 * @brief Initialize discord object
 	 * @param ActivityManager Manager data that will be used in discord
 	 * @param AppId Application id at https://discord.com/developers/applications
+	 * @param DiscordInstanceId Used for testing with multiple instances of discord app on 1 PC
 	 */
 	UFUNCTION(
 		BlueprintNativeEvent,
@@ -55,7 +56,8 @@ public:
 	)
 	void Init(
 		const FDiscordActivityManagerData& ActivityManager,
-		const int64 AppId
+		const int64 AppId,
+		const int32 DiscordInstanceId = 0
 	);
 
 protected:
